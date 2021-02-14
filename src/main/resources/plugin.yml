@@ -17,6 +17,12 @@ commands:
     permission: LoadCart.count
     permission-message: You do not have permission!
     usage: /<command>
+  countemptycarts:
+    description: Count empty minecarts
+    aliases: cemc
+    permission: LoadCart.count
+    permission-message: You do not have permission!
+    usage: /<command>
   removeminecarts:
     description: Remove all loaded minecarts
     aliases: rmc

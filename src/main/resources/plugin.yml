@@ -1,0 +1,31 @@
+name: LoadCart
+main: io.github.ikbenlike.LoadCart.LoadCart
+version: 0.1
+
+permissions:
+  LoadCart.count:
+    description: Allows count command
+    default: true
+  LoadCart.remove:
+    description: Allows remove command
+    default: op
+
+commands:
+  countminecarts:
+    description: Count minecarts
+    aliases: cmc
+    permission: LoadCart.count
+    permission-message: You do not have permission!
+    usage: /<command>
+  removeminecarts:
+    description: Remove all loaded minecarts
+    aliases: rmc
+    permission: LoadCart.remove
+    permission-message: You do not have permission!
+    usage: /<command>
+  removeemptycarts:
+    description: Remove all empty loaded minecarts
+    aliases: remc
+    permission: LoadCart.remove
+    permission-message: You do not have permission!
+    usage: /<command>

@@ -41,3 +41,8 @@ commands:
     permission: LoadCart.remove
     permission-message: You do not have permission!
     usage: /<command>
+  removeutilitycarts:
+    description: Remove all utility minecarts
+    aliases: rumc
+    permission: LoadCart.remove
+    permission-message: You do not have permission!

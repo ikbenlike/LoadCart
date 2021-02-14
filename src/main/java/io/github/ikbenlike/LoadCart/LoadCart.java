@@ -104,10 +104,9 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
         }
         if (command.getName().equals("removeemptycarts") && commandSender.hasPermission("LoadCart.remove")) {
             int i = 0;
-            for (Minecart value : list) {
-                final Minecart minecart;
-                if ((minecart = value).getPassengers() == null && !(minecart instanceof StorageMinecart) && !(minecart instanceof PoweredMinecart)) {
-                    minecart.remove();
+            for (Minecart cart : list) {
+                if (isCartEmpty(cart)) {
+                    cart.remove();
                     ++i;
                 }
             }

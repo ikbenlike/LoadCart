@@ -8,8 +8,6 @@ import org.bukkit.Chunk;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.minecart.*;
-import org.bukkit.event.Event;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Minecart;
@@ -22,9 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class LoadCart extends JavaPlugin implements Listener
 {
     public void onEnable() {
-        /*if (this.getConfig().getBoolean("Load chunks")) {
-            this.getServer().getScheduler().scheduleSyncRepeatingTask(this, this, 6000L, 6000L);
-        }*/
         this.getServer().getPluginManager().registerEvents(this, this);
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
@@ -66,34 +61,8 @@ public final class LoadCart extends JavaPlugin implements Listener
                     getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
                 }
             }
-            /*if (vehicleMoveEvent.getVehicle() instanceof StorageMinecart) {
-                ((Minecart)vehicleMoveEvent.getVehicle()).setSlowWhenEmpty(!this.getConfig().getBoolean("Affect storage carts"));
-            }
-            if (!(vehicleMoveEvent.getVehicle() instanceof StorageMinecart) && !(vehicleMoveEvent.getVehicle() instanceof PoweredMinecart)) {
-                ((Minecart)vehicleMoveEvent.getVehicle()).setSlowWhenEmpty(!this.getConfig().getBoolean("Affect empty carts"));
-            }
-            if (this.getConfig().getBoolean("Load chunks")) {
-                for (int i = -3; i <= 3; ++i) {
-                    for (int j = -3; j <= 3; ++j) {
-                        vehicleMoveEvent.getTo().getWorld().loadChunk(vehicleMoveEvent.getTo().getChunk().getX() + i, vehicleMoveEvent.getTo().getChunk().getZ() + j);
-                    }
-                }
-            }*/
         }
     }
-
-    /*public void run() {
-        final Iterator<World> iterator = this.getServer().getWorlds().iterator();
-        while (iterator.hasNext()) {
-            Chunk[] loadedChunks;
-            for (int length = (loadedChunks = iterator.next().getLoadedChunks()).length, i = 0; i < length; ++i) {
-                final Chunk chunk = loadedChunks[i];
-                final ChunkUnloadEvent chunkUnloadEvent = new ChunkUnloadEvent(chunk);
-                this.getServer().getPluginManager().callEvent((Event)chunkUnloadEvent);
-                chunk.unload(true); // TODO: replace with chunk ticket system!
-            }
-        }
-    }*/
 
     public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] array) {
         final ArrayList<Minecart> list = new ArrayList<>();

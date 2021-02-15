@@ -62,10 +62,10 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
             if (toChunk.getX() != fromChunk.getX() || toChunk.getZ() != fromChunk.getZ()) {
                 toChunk.addPluginChunkTicket(this);
                 getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")" + " from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
-                /*if (!chunkContainsCart(fromChunk)) {
+                if (!chunkContainsCart(fromChunk)) {
                     fromChunk.removePluginChunkTicket(this);
                     getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
-                }*/
+                }
             }
             /*if (vehicleMoveEvent.getVehicle() instanceof StorageMinecart) {
                 ((Minecart)vehicleMoveEvent.getVehicle()).setSlowWhenEmpty(!this.getConfig().getBoolean("Affect storage carts"));
@@ -165,24 +165,6 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
         }
         return true;
     }
-
-    /*@EventHandler
-    public void P(final ChunkUnloadEvent chunkUnloadEvent) {
-        if (this.getConfig().getBoolean("Load chunks")) {
-            for (int i = -3; i <= 3; ++i) {
-                for (int j = -3; j <= 3; ++j) {
-                    final Iterator<Minecart> iterator = chunkUnloadEvent.getWorld().getEntitiesByClass((Class)Minecart.class).iterator();
-                    while (iterator.hasNext()) {
-                        final Minecart minecart;
-                        if (((minecart = iterator.next()).getVelocity().getX() != 0.0 || minecart.getVelocity().getZ() != 0.0) && minecart.getLocation().getChunk().getX() == i + chunkUnloadEvent.getChunk().getX() && minecart.getLocation().getChunk().getZ() == j + chunkUnloadEvent.getChunk().getZ()) {
-                            //TODO: replace with chunk ticket system!
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 
     public void onDisable() {
     }

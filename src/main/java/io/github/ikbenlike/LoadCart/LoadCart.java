@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.Chunk;
 import java.util.Iterator;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.minecart.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.world.ChunkUnloadEvent;
@@ -14,24 +15,58 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Minecart;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.event.Listener;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LoadCart extends JavaPlugin implements Runnable, Listener
 {
     public void onEnable() {
-        if (this.getConfig().getBoolean("Load chunks")) {
+        /*if (this.getConfig().getBoolean("Load chunks")) {
             this.getServer().getScheduler().scheduleSyncRepeatingTask(this, this, 6000L, 6000L);
-        }
+        }*/
         this.getServer().getPluginManager().registerEvents(this, this);
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         getLogger().info("Loaded LoadCart!");
     }
 
+    /*Consider all minecarts which are not rideable utility carts.*/
+    public boolean isUtilityCart(Minecart cart) {
+        return !(cart instanceof RideableMinecart);
+    }
+
+    /*Consider all utility carts as not being "empty".*/
+    public boolean isCartEmpty(Minecart cart) {
+        return cart.isEmpty() && !isUtilityCart(cart);
+    }
+
+    public boolean chunkContainsCart(Chunk chunk) {
+        Entity[] entities = chunk.getEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Minecart) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @EventHandler
     public void p(final VehicleMoveEvent vehicleMoveEvent) {
         if (vehicleMoveEvent.getVehicle() instanceof Minecart) {
-            if (vehicleMoveEvent.getVehicle() instanceof StorageMinecart) {
+            Location from = vehicleMoveEvent.getFrom();
+            Location to = vehicleMoveEvent.getTo();
+            //getLogger().info("X: " + location.getBlockX() + " Y: " + location.getBlockY() + " Z: " + location.getBlockZ());
+            Chunk fromChunk = from.getChunk();
+            Chunk toChunk = to.getChunk();
+            if (toChunk.getX() != fromChunk.getX() || toChunk.getZ() != fromChunk.getZ()) {
+                toChunk.addPluginChunkTicket(this);
+                getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")" + " from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
+                if (!chunkContainsCart(fromChunk)) {
+                    fromChunk.removePluginChunkTicket(this);
+                    getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
+                }
+            }
+            /*if (vehicleMoveEvent.getVehicle() instanceof StorageMinecart) {
                 ((Minecart)vehicleMoveEvent.getVehicle()).setSlowWhenEmpty(!this.getConfig().getBoolean("Affect storage carts"));
             }
             if (!(vehicleMoveEvent.getVehicle() instanceof StorageMinecart) && !(vehicleMoveEvent.getVehicle() instanceof PoweredMinecart)) {
@@ -43,7 +78,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
                         vehicleMoveEvent.getTo().getWorld().loadChunk(vehicleMoveEvent.getTo().getChunk().getX() + i, vehicleMoveEvent.getTo().getChunk().getZ() + j);
                     }
                 }
-            }
+            }*/
         }
     }
 
@@ -58,16 +93,6 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
                 chunk.unload(true); // TODO: replace with chunk ticket system!
             }
         }
-    }
-
-    /*Consider all minecarts which are not rideable utility carts.*/
-    public boolean isUtilityCart(Minecart cart) {
-        return !(cart instanceof RideableMinecart);
-    }
-
-    /*Consider all utility carts as not being "empty".*/
-    public boolean isCartEmpty(Minecart cart) {
-        return cart.isEmpty() && !isUtilityCart(cart);
     }
 
     public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] array) {
@@ -125,7 +150,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
         return true;
     }
 
-    @EventHandler
+    /*@EventHandler
     public void P(final ChunkUnloadEvent chunkUnloadEvent) {
         if (this.getConfig().getBoolean("Load chunks")) {
             for (int i = -3; i <= 3; ++i) {
@@ -141,7 +166,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
                 }
             }
         }
-    }
+    }*/
 
     public void onDisable() {
     }

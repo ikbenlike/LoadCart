@@ -48,3 +48,15 @@ By default, it is only granted to server operators.
 ### LoadCart.ticket
 
 This is the permission necessary for all the ticket management commands. By default, it is only granted to server operators.
+
+## Configuration
+
+This plugin offers two configuration flags.
+
+### 1. `chunks`
+
+This option needs to be set to true for minecarts to load chunks. It is set to true by default.
+
+### 2. `verbose`
+
+This option needs to be set to true to receive detailed feedback in the server console. It is set to false by default.

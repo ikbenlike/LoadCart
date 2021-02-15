@@ -48,8 +48,8 @@ public final class LoadCart extends JavaPlugin implements Listener
     }
 
     public boolean chunkContainsCart(Chunk chunk) {
-        Entity[] entities = chunk.getEntities();
-        for (Entity entity : entities) {
+        final Entity[] entities = chunk.getEntities();
+        for (final Entity entity : entities) {
             if (entity instanceof Minecart) {
                 return true;
             }

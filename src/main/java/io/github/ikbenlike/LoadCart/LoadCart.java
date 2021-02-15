@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.Chunk;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.minecart.*;
 import org.bukkit.World;
@@ -13,15 +14,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Minecart;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.event.Listener;
-import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LoadCart extends JavaPlugin implements Listener
 {
+    boolean verbose = false;
+    boolean loadChunks = true;
+
     public void onEnable() {
+        FileConfiguration config = this.getConfig();
+        this.verbose = config.getBoolean("verbose");
+        this.loadChunks = config.getBoolean("chunks");
+
+        if(this.verbose) {
+            this.getLogger().info("Starting with verbose set to " + this.verbose + " and chunk-loading set to " + this.loadChunks);
+        }
+
         this.getServer().getPluginManager().registerEvents(this, this);
-        this.getConfig().options().copyDefaults(true);
+        config.options().copyDefaults(true);
         this.saveConfig();
         getLogger().info("Loaded LoadCart!");
     }
@@ -48,17 +59,24 @@ public final class LoadCart extends JavaPlugin implements Listener
 
     @EventHandler
     public void VehicleHandler(final VehicleMoveEvent vehicleMoveEvent) {
-        if (vehicleMoveEvent.getVehicle() instanceof Minecart) {
+        if (vehicleMoveEvent.getVehicle() instanceof Minecart && this.loadChunks) {
             final Chunk fromChunk = vehicleMoveEvent.getFrom().getChunk();
             final Chunk toChunk = vehicleMoveEvent.getTo().getChunk();
-            /*Chunk fromChunk = from.getChunk();
-            Chunk toChunk = to.getChunk();*/
             if (toChunk.getX() != fromChunk.getX() || toChunk.getZ() != fromChunk.getZ()) {
-                toChunk.addPluginChunkTicket(this);
-                getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")" + " from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
+                final boolean t = toChunk.addPluginChunkTicket(this);
+                if(this.verbose) {
+                    if(t) {
+                        getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")");
+                    }
+                    else {
+                        getLogger().info("Already ticket at chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")");
+                    }
+                }
                 if (!chunkContainsCart(fromChunk)) {
                     fromChunk.removePluginChunkTicket(this);
-                    getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
+                    if(this.verbose) {
+                        getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
+                    }
                 }
             }
         }

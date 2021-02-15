@@ -26,18 +26,25 @@ This plugin provides several custom commands.
 - removeutilitycarts
   - Description: Remove all utility minecarts in loaded chunks
   - Alias: rumc
+- removetickets
+  - Description: Remove all tickets added by this plugin
+  - Alias: rts 
 
 
 ## Permissions
 
-This plugin provides the following two permissions:
+This plugin provides the following three permissions:
 
 ### LoadCart.count
 
-This is the permission necessary for all the counting commands (commands starting with "count" or alias starting with "c").
+This is the permission necessary for all the cart counting commands (commands starting with "count" or alias starting with "c").
 By default, it is granted to everyone.
 
 ### LoadCart.remove
 
-This is the permission necessary for all the removal commands (commands starting with "remove" or alias starting with "r").
+This is the permission necessary for all the cart removal commands (commands starting with "remove" or alias starting with "r").
 By default, it is only granted to server operators.
+
+### LoadCart.ticket
+
+This is the permission necessary for all the ticket management commands. By default, it is only granted to server operators.

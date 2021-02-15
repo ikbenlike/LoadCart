@@ -1,13 +1,16 @@
 name: LoadCart
 main: io.github.ikbenlike.LoadCart.LoadCart
-version: 0.2
+version: 0.3.2
 
 permissions:
   LoadCart.count:
-    description: Allows count command
+    description: Allows count commands
     default: true
   LoadCart.remove:
-    description: Allows remove command
+    description: Allows remove commands
+    default: op
+  LoadCart.ticket:
+    description: Allows ticket management commands
     default: op
 
 commands:
@@ -45,4 +48,9 @@ commands:
     description: Remove all utility minecarts
     aliases: rumc
     permission: LoadCart.remove
+    permission-message: You do not have permission!
+  removetickets:
+    description: Remove all tickets added by this plugin
+    aliases: rts
+    permission: LoadCart.ticket
     permission-message: You do not have permission!

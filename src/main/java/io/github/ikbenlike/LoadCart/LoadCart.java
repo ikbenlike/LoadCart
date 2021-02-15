@@ -49,10 +49,10 @@ public final class LoadCart extends JavaPlugin implements Listener
     @EventHandler
     public void VehicleHandler(final VehicleMoveEvent vehicleMoveEvent) {
         if (vehicleMoveEvent.getVehicle() instanceof Minecart) {
-            Location from = vehicleMoveEvent.getFrom();
-            Location to = vehicleMoveEvent.getTo();
-            Chunk fromChunk = from.getChunk();
-            Chunk toChunk = to.getChunk();
+            final Chunk fromChunk = vehicleMoveEvent.getFrom().getChunk();
+            final Chunk toChunk = vehicleMoveEvent.getTo().getChunk();
+            /*Chunk fromChunk = from.getChunk();
+            Chunk toChunk = to.getChunk();*/
             if (toChunk.getX() != fromChunk.getX() || toChunk.getZ() != fromChunk.getZ()) {
                 toChunk.addPluginChunkTicket(this);
                 getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")" + " from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");

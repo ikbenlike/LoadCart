@@ -128,24 +128,24 @@ public final class LoadCart extends JavaPlugin implements Listener
             }
         }
         else if (command.getName().equalsIgnoreCase("removeemptycarts") && commandSender.hasPermission("LoadCart.remove")) {
-            int i = 0;
+            int count = 0;
             for (Minecart cart : list) {
                 if (isCartEmpty(cart)) {
                     cart.remove();
-                    ++i;
+                    count +=1 ;
                 }
             }
-            commandSender.sendMessage(i + " Minecart" + ((i != 1) ? "s" : "") + " removed");
+            commandSender.sendMessage(count + " Minecart" + ((count != 1) ? "s" : "") + " removed");
         }
         else if (command.getName().equalsIgnoreCase("removeutilitycarts") && commandSender.hasPermission("LoadCart.remove")) {
-            int i = 0;
+            int count = 0;
             for (Minecart cart : list) {
                 if (isUtilityCart(cart)) {
                     cart.remove();
-                    ++i;
+                    count +=1 ;
                 }
             }
-            commandSender.sendMessage(i + " Minecart" + ((i != 1) ? "s" : "") + " removed");
+            commandSender.sendMessage(count + " Minecart" + ((count != 1) ? "s" : "") + " removed");
         }
         else if (command.getName().equalsIgnoreCase("removetickets") && commandSender.hasPermission("LoadCart.ticket")) {
             final List<World> worlds = getServer().getWorlds();
@@ -156,7 +156,7 @@ public final class LoadCart extends JavaPlugin implements Listener
                 if (chunks != null) {
                     for (Chunk chunk : chunks) {
                         chunk.removePluginChunkTicket(this);
-                        ++count;
+                        count += 1;
                     }
                 }
             }

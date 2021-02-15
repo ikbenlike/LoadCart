@@ -100,10 +100,10 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
         for (World world : this.getServer().getWorlds()) {
             list.addAll(world.getEntitiesByClass(Minecart.class));
         }
-        if (command.getName().equals("countminecarts") && commandSender.hasPermission("LoadCart.count")) {
+        if (command.getName().equalsIgnoreCase("countminecarts") && commandSender.hasPermission("LoadCart.count")) {
             commandSender.sendMessage(list.size() + " Minecart" + ((list.size() != 1) ? "s" : ""));
         }
-        else if (command.getName().equals("countemptycarts") && commandSender.hasPermission("LoadCart.count")) {
+        else if (command.getName().equalsIgnoreCase("countemptycarts") && commandSender.hasPermission("LoadCart.count")) {
             int count = 0;
             for (Minecart cart : list) {
                 if (isCartEmpty(cart)) {
@@ -112,7 +112,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
             }
             commandSender.sendMessage(count + " Minecart" + ((count != 1) ? "s" : ""));
         }
-        else if (command.getName().equals("countutilitycarts") && commandSender.hasPermission("LoadCart.count")) {
+        else if (command.getName().equalsIgnoreCase("countutilitycarts") && commandSender.hasPermission("LoadCart.count")) {
             int count = 0;
             for (Minecart cart : list) {
                 if (isUtilityCart(cart)) {
@@ -121,13 +121,13 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
             }
             commandSender.sendMessage(count + " Minecart" + ((count != 1) ? "s" : ""));
         }
-        else if (command.getName().equals("removeminecarts") && commandSender.hasPermission("LoadCart.remove")) {
+        else if (command.getName().equalsIgnoreCase("removeminecarts") && commandSender.hasPermission("LoadCart.remove")) {
             commandSender.sendMessage(list.size() + " Minecart" + ((list.size() != 1) ? "s" : "") + " removed");
             for (Minecart minecart : list) {
                 minecart.remove();
             }
         }
-        else if (command.getName().equals("removeemptycarts") && commandSender.hasPermission("LoadCart.remove")) {
+        else if (command.getName().equalsIgnoreCase("removeemptycarts") && commandSender.hasPermission("LoadCart.remove")) {
             int i = 0;
             for (Minecart cart : list) {
                 if (isCartEmpty(cart)) {
@@ -137,7 +137,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
             }
             commandSender.sendMessage(i + " Minecart" + ((i != 1) ? "s" : "") + " removed");
         }
-        else if (command.getName().equals("removeutilitycarts") && commandSender.hasPermission("LoadCart.remove")) {
+        else if (command.getName().equalsIgnoreCase("removeutilitycarts") && commandSender.hasPermission("LoadCart.remove")) {
             int i = 0;
             for (Minecart cart : list) {
                 if (isUtilityCart(cart)) {

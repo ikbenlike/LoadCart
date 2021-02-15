@@ -1,10 +1,10 @@
 package io.github.ikbenlike.LoadCart;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.Chunk;
-import java.util.Iterator;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.minecart.*;
@@ -16,6 +16,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LoadCart extends JavaPlugin implements Runnable, Listener
@@ -61,10 +62,10 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
             if (toChunk.getX() != fromChunk.getX() || toChunk.getZ() != fromChunk.getZ()) {
                 toChunk.addPluginChunkTicket(this);
                 getLogger().info("Added ticket to chunk (X: " + toChunk.getX() + " Z: " + toChunk.getZ() + ")" + " from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
-                if (!chunkContainsCart(fromChunk)) {
+                /*if (!chunkContainsCart(fromChunk)) {
                     fromChunk.removePluginChunkTicket(this);
                     getLogger().info("Removed ticket from chunk (X: " + fromChunk.getX() + " Z: " + fromChunk.getZ() + ")");
-                }
+                }*/
             }
             /*if (vehicleMoveEvent.getVehicle() instanceof StorageMinecart) {
                 ((Minecart)vehicleMoveEvent.getVehicle()).setSlowWhenEmpty(!this.getConfig().getBoolean("Affect storage carts"));
@@ -146,6 +147,21 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
                 }
             }
             commandSender.sendMessage(i + " Minecart" + ((i != 1) ? "s" : "") + " removed");
+        }
+        else if (command.getName().equalsIgnoreCase("removetickets") && commandSender.hasPermission("LoadCart.ticket")) {
+            final List<World> worlds = getServer().getWorlds();
+            int count = 0;
+            for (World world : worlds ) {
+                Map<Plugin, Collection<Chunk>> pluginMap = world.getPluginChunkTickets();
+                Collection<Chunk> chunks = pluginMap.get(this);
+                if (chunks != null) {
+                    for (Chunk chunk : chunks) {
+                        chunk.removePluginChunkTicket(this);
+                        ++count;
+                    }
+                }
+            }
+            commandSender.sendMessage(count + " Ticket" + ((count != 1) ? "s" : "") + " removed");
         }
         return true;
     }

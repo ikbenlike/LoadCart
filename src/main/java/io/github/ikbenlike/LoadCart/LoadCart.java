@@ -19,7 +19,7 @@ import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class LoadCart extends JavaPlugin implements Runnable, Listener
+public final class LoadCart extends JavaPlugin implements Listener
 {
     public void onEnable() {
         /*if (this.getConfig().getBoolean("Load chunks")) {
@@ -83,7 +83,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
         }
     }
 
-    public void run() {
+    /*public void run() {
         final Iterator<World> iterator = this.getServer().getWorlds().iterator();
         while (iterator.hasNext()) {
             Chunk[] loadedChunks;
@@ -94,7 +94,7 @@ public final class LoadCart extends JavaPlugin implements Runnable, Listener
                 chunk.unload(true); // TODO: replace with chunk ticket system!
             }
         }
-    }
+    }*/
 
     public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] array) {
         final ArrayList<Minecart> list = new ArrayList<>();

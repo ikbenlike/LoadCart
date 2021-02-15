@@ -1,6 +1,7 @@
 name: LoadCart
 main: io.github.ikbenlike.LoadCart.LoadCart
 version: 0.3.2
+api-version: 1.16
 
 permissions:
   LoadCart.count:
